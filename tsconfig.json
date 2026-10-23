@@ -1,0 +1,16 @@
+{
+  // Only checks the type declarations (src/index.d.ts) against test/types.check.ts; the library
+  // itself is plain JavaScript.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": false,
+    "types": [],
+    "paths": { "body3d": ["./src/index.d.ts"] }
+  },
+  "files": ["src/index.d.ts", "test/types.check.ts"]
+}

@@ -1,0 +1,6 @@
+# body3d pipeline (Python 3.11+). Install in a virtual environment outside synced folders:
+#   python -m venv ~/.cache/body3d/venv
+#   ~/.cache/body3d/venv/bin/python -m pip install -r requirements.txt   (Scripts\python on Windows)
+numpy>=2.0
+scipy>=1.13
+fast-simplification>=0.1.7

@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use body3d, please cite it as below."
+title: "body3d: an anatomical 3D muscle-activation viewer for the web, shaped by FFMI and tape measures"
+version: 0.3.0
+date-released: 2026-10-23
+# code: MIT; models and anatomical catalog (derived from BodyParts3D): CC BY 4.0
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/leosalim/body3d"
+authors:
+  - family-names: Salim
+    given-names: Leonardo Marcos Gomes
+keywords:
+  - anatomy
+  - muscle activation
+  - three.js
+  - BodyParts3D
+  - anthropometry
+  - fat-free mass index
+references:
+  - type: article
+    title: "BodyParts3D: 3D structure database for anatomical concepts"
+    authors:
+      - family-names: Mitsuhashi
+        given-names: Nobutaka
+      - name: "et al."
+    journal: "Nucleic Acids Research"
+    volume: 37
+    year: 2009
+  - type: report
+    title: "2012 Anthropometric Survey of U.S. Army Personnel: Methods and Summary Statistics"
+    authors:
+      - family-names: Gordon
+        given-names: Claire C.
+      - name: "et al."
+    institution:
+      name: "U.S. Army Natick Soldier Research, Development and Engineering Center"
+    number: "NATICK/TR-15/007"
+    year: 2014

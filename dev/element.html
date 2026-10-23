@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>body3d · custom element (built bundle)</title>
+  <link rel="icon" href="data:," />
+  <style>
+    body { margin: 0; font: 13px system-ui; display: grid; grid-template-columns: 1fr 1fr; height: 100vh; }
+    body3d-viewer { height: 100vh; }
+    #log { position: fixed; left: 8px; bottom: 8px; background: #fff; padding: 6px 8px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <!-- uses the standalone bundle in dist/lib (three.js inside), as a plain page would after `npm run build` -->
+  <body3d-viewer id="a" model="male" view="front" pose="front-lat-spread" model-base-url="/models/"></body3d-viewer>
+  <body3d-viewer id="b" model="female" view="back" locale="pt-BR" no-bones model-base-url="/models/"></body3d-viewer>
+  <div id="log">—</div>
+  <script type="module">
+    import { defineBodyElement, fromExercise } from '../dist/lib/body3d.standalone.js'
+    defineBodyElement()
+    const a = document.getElementById('a')
+    const b = document.getElementById('b')
+    // an exercise as a catalog API would return it
+    a.activations = fromExercise({
+      primaryMuscles: [{ id: 8, name: 'Chest' }],
+      secondaryMuscles: [{ id: 23, name: 'Triceps' }, { id: 4, name: 'Anterior Deltoids' }]
+    })
+    b.activations = [{ muscle: 'Glúteos', activation: 100 }, { muscle: 'Posteriores da coxa', activation: 60 },
+                     { muscle: 'rectus-femoris', activation: 40, side: 'left' }]
+    let loaded = 0
+    for (const el of [a, b]) {
+      el.addEventListener('body3d-load', () => { if (++loaded === 2) window.ready = true })
+      el.addEventListener('body3d-select', (e) => { document.getElementById('log').textContent = JSON.stringify(e.detail) })
+    }
+  </script>
+</body>
+</html>

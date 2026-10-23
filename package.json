@@ -1,0 +1,79 @@
+{
+  "name": "body3d",
+  "version": "0.3.0",
+  "type": "module",
+  "description": "3D muscle-activation viewer for the web: an anatomical body built from BodyParts3D, shaped by FFMI and tape measures, in three.js.",
+  "keywords": [
+    "anatomy",
+    "muscles",
+    "3d",
+    "three.js",
+    "webgl",
+    "bodyparts3d",
+    "fitness",
+    "ffmi",
+    "anthropometry"
+  ],
+  "license": "MIT AND CC-BY-4.0",
+  "author": "Leonardo Marcos Gomes Salim",
+  "homepage": "https://github.com/leosalim/body3d#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leosalim/body3d.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leosalim/body3d/issues"
+  },
+  "main": "./dist/lib/body3d.js",
+  "module": "./dist/lib/body3d.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./dist/lib/body3d.js"
+    },
+    "./standalone": {
+      "types": "./src/index.d.ts",
+      "default": "./dist/lib/body3d.standalone.js"
+    },
+    "./models/*": "./public/models/*",
+    "./vite": "./vite-plugin.js"
+  },
+  "files": [
+    "dist/lib/*.js",
+    "src",
+    "public/models",
+    "vite-plugin.js",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --mode lib && vite build --mode standalone",
+    "preview": "vite preview",
+    "test": "node --test \"test/*.test.mjs\"",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "snapshots": "node dev/snapshots.mjs",
+    "calibrate": "node dev/calibrate.mjs",
+    "validate": "node dev/validate-ansur.mjs"
+  },
+  "peerDependencies": {
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/three": "^0.186.0",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
+    "playwright-core": "^1.63.0",
+    "three": "^0.186.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.0.11"
+  }
+}

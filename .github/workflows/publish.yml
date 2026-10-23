@@ -1,0 +1,43 @@
+# Publishes a release tag to npm — run by hand (Actions → publish → Run workflow) once the package
+# is meant to be on npm. Needs the repository secret NPM_TOKEN (an npm automation token).
+# The version published is the one in package.json at that tag; npm never accepts it twice.
+name: publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to publish (e.g. v0.3.0)'
+        required: true
+      dry-run:
+        description: 'Only show what would be published'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write          # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - name: Tag and package.json agree
+        run: |
+          v="$(node -p "require('./package.json').version")"
+          test "v$v" = "${{ inputs.tag }}" || { echo "package.json is $v, tag is ${{ inputs.tag }}"; exit 1; }
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - name: Publish
+        run: npm publish --access public --provenance ${{ inputs.dry-run && '--dry-run' || '' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
