@@ -11,6 +11,7 @@ Stages (one module each):
   synth        structures BodyParts3D lacks (latissimus dorsi, patellar ligament)
   rig          skinning weights
   morph        female proportions and FFMI-calibrated hypertrophy, one morph per region
+  rig          only the tendon of the latissimus follows the arm (weights, after the morphs)
   fitdata      girth probes and the muscle-volume polynomial for the tape-measure fit
   export       quantized GLB with rig, part index and metadata
 
@@ -99,6 +100,7 @@ def prepare(sex: str, lod: str, t0: float | None = None, fit: bool = True):
     rig.skin_weights(parts, joints)
     log(t0, "skinning")
     info = morph.morph(parts, joints, sex, log=lambda m: log(t0, m))
+    rig.couple_latissimus(parts, joints)
     _bake_ao(parts, info.get("defaultWeight", 0.0))
     log(t0, "ambient occlusion")
     if fit and sex != "base":

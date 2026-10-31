@@ -280,7 +280,9 @@ vertices and their neighbours in the chain — without that, the hand hanging ne
 followed the leg. The dominant segment of each muscle (where most of its vertices are) weighs 4×:
 the belly turns rigidly with its bone and only the ends, near the other joint, blend — with pure
 distance weights the biceps stretched between humerus and forearm when the elbow flexed. Four
-influences, smoothed over the mesh.
+influences, smoothed over the mesh. The latissimus is the exception at the arm: only its tendon
+follows the humerus, the share fading to nothing 5 cm away (to the shoulder girdle) — bound by
+distance, its whole upper lateral part swung out like a wing when the arm went overhead.
 
 **Skinning** is dual-quaternion in the shader ([architecture.md](architecture.md)): linear blending
 collapses the volume under the twists of the poses.

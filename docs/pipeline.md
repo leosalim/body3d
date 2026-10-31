@@ -55,6 +55,7 @@ per mesh, for `dev/inspect.html`.
 | synthesis | `synth.py`, `voxel.py` | latissimus dorsi (fibres draped over a distance field of the trunk) and patellar ligament |
 | skinning | `rig.py` | 4 weights per vertex: inverse distance to bone surfaces, restricted to dominant segments and their neighbours |
 | proportions, hypertrophy | `morph.py` | female proportions through the skin weights; layered hypertrophy integral, split by region; isotropic limb growth; gains for the FFMI range; one morph per region |
+| latissimus coupling | `rig.py` | only the tendon of the latissimus follows the humerus (fading over 5 cm to the shoulder girdle); after the morphs, so the rest shape does not change |
 | ambient occlusion | `morph.py` | per-vertex occlusion from the whole-body distance field, at the default FFMI |
 | fit data | `fitdata.py` | girth probes (material points of cross-sections) and the exact cubic polynomial of muscle volume |
 | export | `export.py`, `gltf.py` | quantized GLB with rig, part index, AO, sparse morph targets, metadata |

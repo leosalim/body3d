@@ -1,6 +1,6 @@
 {
   "name": "body3d",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "3D muscle-activation viewer for the web: an anatomical body built from BodyParts3D, shaped by FFMI and tape measures, in three.js.",
   "keywords": [

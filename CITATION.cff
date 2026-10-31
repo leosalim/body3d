@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use body3d, please cite it as below."
 title: "body3d: an anatomical 3D muscle-activation viewer for the web, shaped by FFMI and tape measures"
-version: 0.3.0
-date-released: 2026-10-23
+version: 0.3.1
+date-released: 2026-10-31
 # code: MIT; models and anatomical catalog (derived from BodyParts3D): CC BY 4.0
 license:
   - MIT

@@ -29,7 +29,7 @@ custom element or an iframe.
 
 ```bash
 # not on npm yet: install a release tag from GitHub (see "Install from a release" below)
-npm install https://github.com/leosalim/body3d/archive/refs/tags/v0.3.0.tar.gz three
+npm install https://github.com/leosalim/body3d/archive/refs/tags/v0.3.1.tar.gz three
 ```
 
 ```js

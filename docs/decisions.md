@@ -239,6 +239,14 @@ part and their chain neighbours; the dominant segment ×4; smoothed; 4 influence
 the biceps between humerus and forearm. With these rules the belly turns rigidly with its bone and
 only the ends blend.
 
+**Latissimus.** Its upper lateral part lies within a few centimetres of the humerus, so distance
+bound it to the arm, and an arm raised overhead swung it about the shoulder as one piece — a wing
+standing out of the trunk (tree pose). Only the tendon follows the humerus now: its share fades to
+nothing 5 cm from the tendon and goes to the shoulder girdle. Compared on the tree pose and the
+cable fly against a uniform fraction k of the arm's turn (k = 0 … 1): a uniform k either keeps the
+wing (k ≥ 0.6) or tears the tendon off the humerus (k ≤ 0.2); fading along the fibre does neither.
+Applied after the morphs, so the rest shape and the fit data (and the calibration) do not change.
+
 ### D17. Dual-quaternion skinning in the shader
 
 **Problem.** Linear blend skinning collapses volume under twist (double biceps: external rotation

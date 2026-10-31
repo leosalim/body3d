@@ -229,3 +229,40 @@ def skin_weights(parts, joints: list[Joint], spacing: float = 0.004) -> None:
         tw /= tw.sum(axis=1, keepdims=True)
         p.joints = np.array([[index[segs[k]] for k in row] for row in top], dtype=np.uint16)
         p.weights = tw.astype(np.float32)
+
+
+# the humerus pulls the latissimus fully at the tendon (distance 0) and not at all from 5 cm on
+LAT_TENDON = (0.0, 0.05)
+
+
+def couple_latissimus(parts, joints: list[Joint], tendon: tuple[float, float] = LAT_TENDON) -> None:
+    """Only the tendon of the latissimus follows the arm; its belly stays on the trunk.
+
+    By distance to the bone the whole upper lateral part of the muscle binds to the humerus, so
+    raising the arm overhead swung it about the shoulder as one piece — a "wing" standing out of
+    the trunk. The share of the humerus fades from the tendon (the vertices it holds ≥ 90 %) to
+    `tendon[1]` metres away and goes to the shoulder girdle instead. Runs after the morphs: the
+    female proportions are applied through the weights, and the rest shape must not change.
+    """
+    index = {j.name: i for i, j in enumerate(joints)}
+    d0, d1 = tendon
+    for p in parts:
+        if p.base != "latissimus-dorsi":
+            continue
+        arm, girdle = index[f"upperarm_{p.side}"], index[f"shoulder_{p.side}"]
+        held = np.where(p.joints == arm, p.weights, 0).sum(axis=1)
+        anchor = p.v[held >= 0.9].mean(axis=0)
+        x = np.clip((np.linalg.norm(p.v - anchor, axis=1) - d0) / (d1 - d0), 0, 1)
+        move = held * x * x * (3 - 2 * x)  # smoothstep: 0 at the tendon, all of it from d1 on
+        for i in np.flatnonzero(move > 1e-4):
+            js, ws = p.joints[i], p.weights[i].astype(np.float64)
+            a = int(np.flatnonzero(js == arm)[0])
+            ws[a] -= move[i]
+            hit = np.flatnonzero(js == girdle)
+            if len(hit):
+                ws[hit[0]] += move[i]
+            else:  # the lightest other slot (often an empty one) takes the girdle
+                k = min((k for k in range(4) if k != a), key=lambda k: ws[k])
+                ws[k] = move[i]
+                js[k] = girdle
+            p.weights[i] = ws / ws.sum()

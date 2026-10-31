@@ -135,3 +135,32 @@ describe('meshes against the fit data', () => {
     })
   }
 })
+
+describe('skin weights', () => {
+  // bound by distance, the latissimus swung out like a wing with the arm overhead (decisions D16)
+  for (const name of MODELS) {
+    test(`${name}: only the tendon of the latissimus follows the humerus`, () => {
+      const { meshes, parts, bones } = readSoftMeshes(fileURLToPath(new URL(`../public/models/${name}.glb`, import.meta.url)))
+      for (const side of ['l', 'r']) {
+        const lat = parts.findIndex((p) => p.id === `latissimus-dorsi_${side}`)
+        const arm = bones.indexOf(`upperarm_${side}`)
+        const pts = []  // x, y, z, share of the humerus
+        for (const m of meshes) {
+          for (let i = 0; i < m.part.length; i++) {
+            if (m.part[i] !== lat) continue
+            let w = 0
+            for (let c = 0; c < 4; c++) if (m.joints[i * 4 + c] === arm) w += m.weights[i * 4 + c]
+            pts.push([m.position[i * 3], m.position[i * 3 + 1], m.position[i * 3 + 2], w])
+          }
+        }
+        const tendon = pts.filter((p) => p[3] >= 0.9)
+        assert.ok(tendon.length >= 20, `${side}: ${tendon.length} tendon vertices`)
+        const anchor = [0, 1, 2].map((c) => tendon.reduce((s, p) => s + p[c], 0) / tendon.length)
+        const far = pts.filter((p) => Math.hypot(p[0] - anchor[0], p[1] - anchor[1], p[2] - anchor[2]) > 0.06)
+        assert.ok(far.length > pts.length / 2, side)
+        const most = Math.max(...far.map((p) => p[3]))
+        assert.ok(most < 0.02, `${side}: humerus share ${most.toFixed(3)} more than 6 cm from the tendon`)
+      }
+    })
+  }
+})

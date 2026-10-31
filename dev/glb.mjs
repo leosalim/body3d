@@ -65,8 +65,9 @@ export function readAccessor(glb, index) {
 
 /**
  * The soft meshes of a body3d model in metres: positions at the minimum FFMI, triangle indices,
- * the part of every vertex and one displacement per region (`targets[region id]`). A vertex at
- * region weights w is `position + Σ w_r · targets[r]` (docs/model-format.md).
+ * the part of every vertex, its 4 skin influences (`joints` index `bones`, the joint names) and one
+ * displacement per region (`targets[region id]`). A vertex at region weights w is
+ * `position + Σ w_r · targets[r]` (docs/model-format.md).
  */
 export function readSoftMeshes(path) {
   const glb = readGlb(path)
@@ -86,9 +87,13 @@ export function readSoftMeshes(path) {
     ;(prim.targets ?? []).forEach((t, i) => {
       targets[mesh.extras.targetNames[i]] = readAccessor(glb, t.POSITION).map((x) => x * half)
     })
-    meshes.push({ name: mesh.name, position, index: readAccessor(glb, prim.indices), part: readAccessor(glb, prim.attributes._PART), targets })
+    meshes.push({
+      name: mesh.name, position, index: readAccessor(glb, prim.indices), part: readAccessor(glb, prim.attributes._PART),
+      joints: readAccessor(glb, prim.attributes.JOINTS_0), weights: readAccessor(glb, prim.attributes.WEIGHTS_0), targets
+    })
   }
-  return { meshes, parts: json.extras.parts, regions: json.extras.body.regions }
+  const bones = json.skins[0].joints.map((n) => json.nodes[n].name)
+  return { meshes, parts: json.extras.parts, regions: json.extras.body.regions, bones }
 }
 
 /**

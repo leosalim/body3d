@@ -1,7 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.3.1 — 2026-10-31
 
+- The latissimus no longer stands out of the trunk like a wing when the arm is raised (tree pose,
+  overhead presses): only its tendon follows the humerus, the rest stays with the shoulder girdle.
+  Models rebuilt — skin weights of the latissimus only; geometry, morphs, fit data and their
+  fingerprints unchanged, so the calibration still applies.
 - `LICENSE` holds the MIT text only, so tools and GitHub recognise it; `NOTICE.md` now opens by
   saying the models and the anatomical catalog are not covered by it and keep CC BY 4.0. No licence
   changed.
