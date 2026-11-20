@@ -9,7 +9,11 @@ RUN npm ci
 COPY . .
 RUN npx vite build
 
-FROM nginxinc/nginx-unprivileged:1.27-alpine AS runtime
+FROM nginxinc/nginx-unprivileged:1.31-alpine AS runtime
+# the base image lags Alpine's security fixes: take them at build time, then drop back to nginx
+USER root
+RUN apk upgrade --no-cache
+USER nginx
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /src/dist/app /usr/share/nginx/html
 EXPOSE 8080
